@@ -1,5 +1,5 @@
 # tictactoe
-Tictactoe game built using node (sockets), ejs
+Tic Tac Toe game built using node (sockets), ejs
 
 ![Event Management App](https://github.com/hamzaavvan/tictactoe/blob/master/ss/tictactoe.gif)
 
