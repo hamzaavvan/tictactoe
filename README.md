@@ -9,9 +9,19 @@ Tic Tac Toe game built using node (sockets), ejs
 2. NPM
 
 ## Usage
-To start the app:
-```js
+First, install the dependencies:
+```bash
+$ npm install
+```
+
+Start the server:
+```bash
 $ npm start
+```
+
+Or start server using node:
+```bash
+$ node server.js
 ```
 
 Then, visit: http://localhost:3000/
