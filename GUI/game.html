@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+	<link rel="stylesheet" type="text/css" href="css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<script src="js/socket.io.js"></script>
+	<script src="js/sweetalert.min.js"></script>
+
+	<script>
+		symbol = '<%= symbol %>';
+		localStorage.setItem('uid', '<%= uid %>')
+		console.log(symbol);
+	</script>
+
+	<title>Tic Tac Toe Game</title>
+</head>
+<body>
+	<div class="container">
+		<h1>TIC TAC TOE</h1>
+
+		<div class="row" style="margin-top: 5em;">
+			<div class="col s4" style="border-right: 1px solid #66666652; padding-bottom: 2em;">
+				<img src="img/Tic-Tac-Toe-Game.png" style="height: 100px; margin-bottom: 15px;">
+				<div class="info">
+					<div>You: <%= name %> <span class="msg"><%- lock ==0 ? '<i style="color: #228b22;" class="material-icons">face</i>' : '' %></span> </div>
+					<div>Player 2: <span class="challenger"><%- opposition %></span></div>
+				</div>
+				
+				<form action="/end" style="margin-top: 2em;">
+					<div class="input-fiel">
+					<button class="waves-effect waves-light btn" type="submit" title="End Game">End Game</button>
+					</div>
+				</form>
+			</div>
+
+			<div class="col s7 tic_tac <%= symbol.length>0 ? '' : 'hidden' %>" style="margin-left: 3em;">
+				<div class="_row border_f">
+					<div box="0" class="_col border_s"></div>
+					<div  box="1" class="_col border_s"></div>
+					<div  box="2" class="_col"></div>
+				</div>
+				<div class="_row border_f">
+					<div  box="3" class="_col border_s"></div>
+					<div  box="4" class="_col border_s"></div>
+					<div  box="5" class="_col"></div>
+				</div>
+				<div class="_row">
+					<div  box="6" class="_col border_s"></div>
+					<div  box="7" class="_col border_s"></div>
+					<div  box="8" class="_col"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+
+<script>
+	function check_lock() {
+		$.get('check', function(t) {
+			console.log(t);
+
+			if (t)
+				$(".msg").html(`<i style="color: #228b22;" class="material-icons">face</i>`);
+		})
+	}
+
+	socket.on('user_move', function (d) {
+		var d = JSON.parse(d);
+		var cell = d.cell;
+
+		console.log(d);
+
+		$(`div[box="${cell}"]`).html(d.symbol);
+
+		check_lock();
+	});
+
+	socket.on('found_challenger', function (info) {
+		console.log(info);
+		var info = JSON.parse(info);
+
+		$(".challenger").html(info.challenger_name);
+		$(".tic_tac").removeClass('hidden');
+		symbol = info.symbol;
+
+		check_lock(); // here check_lock() will execute only once during gameplay
+	});
+
+
+	socket.on('match_ended', function (winner) {
+		winner = JSON.parse(winner);
+
+		console.log("Match ended");
+		console.log(winner);
+
+		let uid = localStorage.getItem('uid');
+		if (winner.id == uid) {
+			Swal.fire({
+				icon: 'success',
+				title: 'Yay...',
+				text: 'You won!',
+				allowOutsideClick: () => location.reload(),
+			});
+
+			localStorage.setItem('winner', 1);
+		} else {
+			Swal.fire({
+				icon: 'error',
+				title: 'Oops...',
+				text: 'You lost!',
+				footer: '<a href="#don\'t-know">Why do I lost?</a>',
+				allowOutsideClick: () => location.reload(),
+			});
+		}
+
+		setTimeout(() => location.reload(), 3000);
+	});
+</script>
+</body>
+</html>

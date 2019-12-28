@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tic Tac Toe</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+	<div class="back row valign-wrapper" style="height: 700px;">
+		<div class="play col s12">
+			<div class="col s5 center-align" style="margin: 0 auto !important; float: none;">
+					<div class="msg">
+					</div>
+
+				<img src="img/Tic-Tac-Toe-Game.png" style="height: 100px; margin-bottom: 15px;">
+
+				<form id="myForm" class="" action="/start" name="myForm" onsubmit="return validateForm()" method="post">
+					<div class="form-group">
+						<div class="col s10">
+							<input type="text" required autofocus id="name" name="name" class="form-control" placeholder=" Enter Your Name" class="feild">
+						</div>
+						<div class="col s2">
+							<button class="btn-floating btn-large waves-effect waves-light" type="submit"><i class="material-icons">send</i></button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+
+<script>
+
+let winner = localStorage.getItem('winner');
+
+if (winner) {
+	$(".msg").html(`<h4>Wow! Well Played</h4>`);
+	localStorage.removeItem('winner');
+	setTimeout(() => $(".msg").remove(), 3000);
+}
+
+function validateForm() {
+  var x = document.forms["myForm"]["name"].value;
+  if (x == "") {
+    alert("Name must be filled out!");
+    return false;
+    alert.className += 'alt';
+  }
+}
+</script>
+</body>
+</html>
