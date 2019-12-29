@@ -9,7 +9,7 @@ Tic Tac Toe game built using node (sockets), ejs
 2. NPM
 
 ## Usage
-First, install the dependencies using `npm`:
+First, install the dependencies using `npm`
 ```bash
 $ cd tictactoe
 $ npm install
