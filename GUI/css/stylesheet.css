@@ -1,5 +1,10 @@
 body {
-	background-color: #FFF;
+    background-color: #FFF;
+    background-image: linear-gradient(315deg, #f9c5d1 0%, #9795ef 74%);
+}
+
+html {
+    height: 100%;
 }
 
 h1 {
@@ -12,7 +17,6 @@ h1 {
 
 ._row{
 	height: 100px;
-
 }
 
 ._col{
@@ -26,8 +30,16 @@ h1 {
 }
 
 ._col:hover{
+    cursor: pointer;
+    background-color: #27aae15c;
+}
 
-	background-color: #848482;
+._col{
+    transition: ease-in-out;
+    -webkit-transition: ease-in-out;
+    transition-delay: 5ms;
+    animation: ease-in-out;
+    animation-delay: 5ms;
 
 }
 .border_f
@@ -38,7 +50,6 @@ h1 {
 .border_s
 {
 	border-right: 10px solid #17406A;
-
 }
 .winner {
 	color: green;
@@ -86,4 +97,86 @@ h1 {
 
 .hidden {
     display: none;
+}
+
+
+.vnone {
+    visibility: hidden;
+}
+
+.face img {
+    border-radius: 100%;
+    border: 3px solid #2B60DE;
+    display: block;
+}
+
+.info .msg {
+    vertical-align: text-bottom;
+    position: absolute;
+    right: -14px;
+    margin: -3px 0;
+}
+
+.info .you, .info .opponent {
+    position: absolute;
+}
+
+.info .you {
+    bottom: 0;
+    max-width: 61px;
+    min-width: 61px;
+}
+
+.rel {
+    position: relative;
+}
+
+.end-match {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.info p {
+    font-weight: bold;
+    font-size: 15px;
+    margin-top: 5px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.sidep {
+    height: 300px;
+    min-height: 400px !important;
+    position: relative;
+}
+
+.nav {
+    margin: 10px 0;
+}
+
+.symbol {
+    position: absolute;
+    color: #fff;
+    cursor: default;
+    font-size: 10px;
+    background: #2b60de;
+    border-radius: 100%;
+    font-weight: bold;
+    padding: 0 4px;
+}
+
+.you .symbol {
+    top: 0px;
+    right: 5px;
+}
+
+.opponent .symbol {
+    top: 0px;
+    right: 5px;
+}
+
+.active {
+    background: #228b1c;
+    border: 1px solid #228b1c !important;
 }

@@ -8,6 +8,8 @@
 
 	<script src="js/socket.io.js"></script>
 	<script src="js/sweetalert.min.js"></script>
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<script>
 		symbol = '<%= symbol %>';
@@ -18,25 +20,37 @@
 	<title>Tic Tac Toe Game</title>
 </head>
 <body>
-	<div class="container">
-		<h1>TIC TAC TOE</h1>
+	<div class="container rel">
 
-		<div class="row" style="margin-top: 5em;">
-			<div class="col s4" style="border-right: 1px solid #66666652; padding-bottom: 2em;">
-				<img src="img/Tic-Tac-Toe-Game.png" style="height: 100px; margin-bottom: 15px;">
-				<div class="info">
-					<div>You: <%= name %> <span class="msg"><%- lock ==0 ? '<i style="color: #228b22;" class="material-icons">face</i>' : '' %></span> </div>
-					<div>Player 2: <span class="challenger"><%- opposition %></span></div>
-				</div>
-				
+		<div class="nav">
+			<img src="img/Tic-Tac-Toe-Game.png" style="height: 100px; margin-bottom: 15px;">
+			<!-- <h1>TIC TAC TOE</h1> -->
+
+			<div class="end-match">
 				<form action="/end" style="margin-top: 2em;">
 					<div class="input-fiel">
-					<button class="waves-effect waves-light btn" type="submit" title="End Game">End Game</button>
+					<button class="waves-effect waves-light btn" type="submit" title="End Game">X</button>
 					</div>
 				</form>
 			</div>
+		</div>
 
-			<div class="col s7 tic_tac <%= symbol.length>0 ? '' : 'hidden' %>" style="margin-left: 3em;">
+		<div class="row" style="margin-top: 15px;">
+			<div class="col s3 sidep">
+				<div class="info">
+					<div class="you">
+						<div class="face">
+							<span class="symbol"><%= symbol %></span>
+							<img src="https://api.adorable.io/avatars/55/<%= name %>" alt="<%- name %>">
+						</div>
+						<p><%= name %> <span class="msg"><%- lock ==0 ? '<a class="btn-floating pulse" href="#!" style="cursor:default; height: 11px; width: 11px;"></a>' : '' %></span> </p>
+
+						<button class="btn-floating btn waves-effect waves-light cyan"> <i class="material-icons">message</i></button>
+					</div>
+				</div>
+			</div>
+
+			<div class="col s12 xl5 l6 tic_tac <%= symbol.length>0 ? '' : 'vnone' %>">
 				<div class="_row border_f">
 					<div box="0" class="_col border_s"></div>
 					<div  box="1" class="_col border_s"></div>
@@ -53,6 +67,47 @@
 					<div  box="8" class="_col"></div>
 				</div>
 			</div>
+
+			<div class="col s2 l1"><br></div>
+			<div class="col s2 l1 sidep">
+				<div class="info">
+					<div class="opponent">
+						<div class="face">
+							<% if (opposition == "Waiting") { %>
+								<div class="preloader-wrapper active" style="
+								background: transparent;border-radius: 100%;
+    border-color: #fff !important;
+    border-width: thick !important;
+							">
+									<div class="spinner-layer spinner-blue-only">
+									  <div class="circle-clipper left">
+										<div class="circle"></div>
+									  </div><div class="gap-patch">
+										<div class="circle"></div>
+									  </div><div class="circle-clipper right">
+										<div class="circle"></div>
+									  </div>
+									</div>
+								  </div>
+							<%} else { %>
+								<span class="symbol"><%- opponent_sym %></span>
+								<img src="https://api.adorable.io/avatars/55/<%- opposition %>" alt="<%- opposition %>">
+							<% } %>
+						</div>
+
+						<div class="info">
+							<% if (opposition == "Waiting") { %>
+								<div class="progress ">
+									<div class="indeterminate cyan"></div>
+								</div>
+							<%} else { %>
+								<p><span class="challenger"><%- opposition %></span></p>
+							<% } %>
+						</div>
+						
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -67,7 +122,7 @@
 			console.log(t);
 
 			if (t)
-				$(".msg").html(`<i style="color: #228b22;" class="material-icons">face</i>`);
+				$(".msg").html(`<a class="btn-floating pulse" href="#!" style="cursor:default; height: 11px; width: 11px;"></a>`);
 		})
 	}
 
@@ -87,8 +142,15 @@
 		var info = JSON.parse(info);
 
 		$(".challenger").html(info.challenger_name);
-		$(".tic_tac").removeClass('hidden');
+		$(".tic_tac").removeClass('vnone');
+		$(".opponent .symbol").text(info.opponent_sym);
+		$(".you .symbol").text(info.symbol);
 		symbol = info.symbol;
+		
+		$(".opponent .face").html(`<span class="symbol">${info.opponent_sym}</span>
+								<img src="https://api.adorable.io/avatars/55/${info.challenger_name}" alt="${info.challenger_name}">`);
+
+		$(".opponent .info").html(`<p><span class="challenger">${info.challenger_name}</span></p>`);
 
 		check_lock(); // here check_lock() will execute only once during gameplay
 	});

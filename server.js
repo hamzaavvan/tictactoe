@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({
 }));  
 
 app.use(session({
-  secret: '$#--♠☻☺./\\',
+  secret: '$#0x--♠☻☺./\\',
   saveUninitialized: true,
   resave: false
 }));
@@ -45,18 +45,11 @@ app.get('/', function(req, res){
   }
   
   let name = user.name;
-  let searching_htm = `<div class="preloader-wrapper small active">
-  <div class="spinner-layer spinner-green-only">
-    <div class="circle-clipper left">
-      <div class="circle"></div>
-    </div><div class="gap-patch">
-      <div class="circle"></div>
-    </div><div class="circle-clipper right">
-      <div class="circle"></div>
-    </div>
-  </div>
-</div>`;
-  let d = {name, opposition: searching_htm, uid: player.id, symbol: player.symbol, lock: null};
+  let searching_htm = `Waiting`;
+  let opponent_sym = "";
+  
+  if(player.symbol) opponent_sym= player.symbol=='X'?'O':'X';
+  let d = {name, opposition: searching_htm, uid: player.id, symbol: player.symbol, opponent_sym, lock: null};
 
   if (player.started) {
     let opposition_user = Player.opposition(player.id);
@@ -108,7 +101,9 @@ app.post('/start', function(req, res){
 
   if (new_player.started == true) {
     let cur_player = Player.get(req.session.user.id);
-    let d = {challenger_name: user.name, symbol: cur_player.symbol};
+    let opponent = Player.get(cur_player.opposition);
+
+    let d = {challenger_name: user.name, symbol: opponent.symbol, opponent_sym: cur_player.symbol};
 
     io.emit('found_challenger', JSON.stringify(d));
   }
