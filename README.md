@@ -7,6 +7,10 @@ Tic Tac Toe game built using node (sockets), ejs
 ![Event Management App](https://github.com/hamzaavvan/tictactoe/blob/master/ss/tictactoev1.2.gif)
 
 
+# Updated GUI
+![Event Management App](https://github.com/hamzaavvan/tictactoe/blob/master/ss/tictactoe.gif)
+
+
 ## Requirements
 1. NodeJS
 2. NPM
