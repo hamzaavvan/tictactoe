@@ -3,7 +3,7 @@ Tic Tac Toe game built using node (sockets), ejs
 
 ![Event Management App](https://github.com/hamzaavvan/tictactoe/blob/master/ss/tictactoev1.0.gif)
 
-# Updated GUI
+# Updated GUI v1.2 Pre-release
 ![Event Management App](https://github.com/hamzaavvan/tictactoe/blob/master/ss/tictactoev1.2.gif)
 
 
