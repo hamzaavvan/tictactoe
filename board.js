@@ -38,6 +38,16 @@ function Board()
         return false;
     }
 
+    this.getMatchMoves = function(id)
+    {
+        let match = this.getMatch(id);
+
+        if (match && 'moves' in match)
+            return match.moves;
+            
+        return null;
+    }
+
     this.matchEnded = function (id) 
     {
         let match = this.getMatch(id);
@@ -45,11 +55,42 @@ function Board()
         return match && match.ended;
     }
 
+    this.isMatchDraw = function (id) 
+    {
+        let match = this.getMatch(id);
+        console.log("is_draw")
+        console.log(match)
+
+        return match && match.draw;
+    }
+
     this.endMatch = function (id) 
     {
         let match = this.getMatch(id);
 
         match.ended = true;
+    }
+
+    this.matchDraw = function(id)
+    {
+        const match = this.getMatch(id);
+        let match_moves = match.moves;
+        
+        is_draw_ctr=0;
+        match_moves.forEach((s) => {
+            if (s!="" &&s.length>0) is_draw_ctr++;
+        });
+
+        console.log("is_draw counter:")
+        console.log(is_draw_ctr)
+        if (is_draw_ctr>=9) {
+            match.draw = true;
+            match.ended = true;
+
+            return true;
+        }
+
+        return false;
     }
 
 	this.checkForWinner = function(player, Player)

@@ -3,8 +3,15 @@ Tic Tac Toe game built using node (sockets), ejs
 
 ![Event Management App](https://github.com/hamzaavvan/tictactoe/blob/master/ss/tictactoev1.0.gif)
 
-# Updated GUI v1.2 Pre-release
-![Event Management App](https://github.com/hamzaavvan/tictactoe/blob/master/ss/tictactoev1.2.gif)
+# Updated GUI v1.3
+![Event Management App](https://github.com/hamzaavvan/tictactoe/blob/master/ss/tictactoev1.3.gif)
+
+## Features
+1. Realtime Chat
+2. Emoji Support
+3. Message Alert
+4. Leave Game
+5. Added Loading Indicator
 
 
 ## Requirements

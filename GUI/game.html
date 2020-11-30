@@ -10,11 +10,11 @@
 	<script src="js/sweetalert.min.js"></script>
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
 
 	<script>
 		symbol = '<%= symbol %>';
 		localStorage.setItem('uid', '<%= uid %>')
-		console.log(symbol);
 	</script>
 
 	<title>Tic Tac Toe Game</title>
@@ -27,7 +27,7 @@
 			<!-- <h1>TIC TAC TOE</h1> -->
 
 			<div class="end-match">
-				<form action="/end" style="margin-top: 2em;">
+				<form action="/end" id="end_match" style="margin-top: 2em;">
 					<div class="input-fiel">
 					<button class="waves-effect waves-light btn" type="submit" title="End Game">X</button>
 					</div>
@@ -41,15 +41,41 @@
 					<div class="you">
 						<div class="face">
 							<span class="symbol"><%= symbol %></span>
-							<img src="https://api.adorable.io/avatars/55/<%= name %>" alt="<%- name %>">
+							<img src="img/avatar/avatar-<%= avatar_id %>.png" alt="<%- name %>">
 						</div>
 						<p><%= name %> <span class="msg"><%- lock ==0 ? '<a class="btn-floating pulse" href="#!" style="cursor:default; height: 11px; width: 11px;"></a>' : '' %></span> </p>
+						
+						<div class="msgbox-wrapper">
+							<button id="msg" class="btn-floating btn waves-effect waves-light cyan"> <i class="material-icons">message</i></button>
+						</div>
 
-						<button class="btn-floating btn waves-effect waves-light cyan"> <i class="material-icons">message</i></button>
 					</div>
 				</div>
 			</div>
+			<div class="msgbox hidden">
 
+				<div class="msg-wrapper  ">
+
+				</div>
+				<div class="msgf-wrapper input-field	">
+					<div class="emoji-wrapper hidden">
+						<div class="pre-msg">
+							<span>Play Fast</span>
+							<span>Hi</span>
+							<span>Oops!</span>
+							<span>Nice Move</span>
+							<span>Well Played</span>
+						</div>
+						<span>😀</span><span>😃</span><span>😄</span><span>😁</span><span>😆</span><span>😅</span><span>😂</span><span>🤣</span><span>😊</span><span>😇</span><span>🙂</span><span>🙃</span><span>😉</span><span>😌</span><span>😍</span><span>🥰</span><span>😘</span><span>😗</span><span>😙</span><span>😚</span><span>😋</span><span>😛</span><span>😝</span><span>😜</span><span>🤪</span><span>🤨</span><span>🧐</span><span>🤓</span><span>😎</span><span>🤩</span><span>🥳</span><span>😏</span><span>😒</span><span>😞</span><span>😔</span><span>😟</span><span>😕</span><span>🙁</span><span>☹️</span>
+						<span>😣</span><span>😖</span><span>😫</span><span>😩</span><span>🥺</span><span>😢</span><span>😭</span><span>😤</span><span>😠</span><span>😡</span><span>🤬</span><span>🤯</span><span>😳</span><span>🥵</span><span>🥶</span><span>😱</span><span>😨</span><span>😰</span><span>😥</span><span>😓</span><span>🤗</span><span>🤔</span><span>🤭</span><span>🤫</span><span>🤥</span><span>😶</span><span>😐</span><span>😑</span><span>😬</span><span>🙄</span><span>😯</span><span>😦</span><span>😧</span><span>😮</span><span>😲</span><span>🥱</span><span>😴</span><span>🤤</span><span>😪</span><span>😵</span><span>🤐</span><span>🥴</span><span>🤢</span><span>🤮</span>
+						<span>🤧</span><span>😷</span><span>🤒</span><span>🤕</span><span>🤑</span><span>🤠</span><span>😈</span><span>👿</span><span>👹</span><span>👺</span><span>🤡</span><span>💩</span><span>👻</span><span>💀</span><span>☠️</span><span>👽</span><span>👾</span><span>🤖</span><span>🎃</span><span>😺</span><span>😸</span><span>😹</span><span>😻</span><span>😼</span><span>😽</span><span>🙀</span><span>😿</span><span>😾</span><span>👋</span><span>🤚</span><span>🖐</span><span>✋</span><span>🖖</span><span>👌</span><span>🤏</span><span>✌️</span><span>🤞</span><span>🤟</span><span>🤘</span><span>🤙</span><span>👈</span><span>👉</span><span>👆</span><span>👇</span>
+						<span>☝️</span><span>👍</span><span>👎</span><span>✊</span><span>👊</span><span>🤛</span><span>🤜</span><span>👏</span><span>🙌</span><span>👐</span><span>🤲</span><span>🤝</span><span>🙏</span><span>✍️</span><span>💅</span><span>🤳</span><span>💪</span><span>🦾</span><span>🦵</span><span>🦿</span><span>🦶</span>
+					</div>
+					<input placeholder="Enter your msg" autofocus="true" id="msg_f" type="text" class="validate">
+					<a class="waves-effect waves-light emoji-sel"><i>☺️</i></a>
+					<a class="waves-effect waves-light send"><i class="material-icons left">send</i></a>
+				</div>
+			</div> 
 			<div class="col s12 xl5 l6 tic_tac <%= symbol.length>0 ? '' : 'vnone' %>">
 				<div class="_row border_f">
 					<div box="0" class="_col border_s"></div>
@@ -91,7 +117,7 @@
 								  </div>
 							<%} else { %>
 								<span class="symbol"><%- opponent_sym %></span>
-								<img src="https://api.adorable.io/avatars/55/<%- opposition %>" alt="<%- opposition %>">
+								<img src="img/avatar/avatar-<%= opp_avatar_id %>.png" alt="<%- opposition %>">
 							<% } %>
 						</div>
 
@@ -115,8 +141,110 @@
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
 
 <script>
+	moves = '<%= match_moves %>'.split(',')
+	uid = localStorage.getItem('uid');
+	
+	$( document ).ready(function() {
+		moves.forEach((i,c) => {
+			$(`div[box="${c}"]`).html(i);
+		});
+	});
+
+	var leave = submit = false;
+	$("#end_match").on("submit", function(e) {
+
+		if (!leave && !submit) {
+			e.preventDefault();
+			leave = confirm("Are you sure you want to leave?")
+		}
+
+		console.log(leave)
+		if (leave) {
+			leave = false;
+			submit = true;
+			$(this).submit();
+		}
+		console.log("---"+leave)
+
+		return;
+	});
+
+	$("body").on("click", function(event) {
+		console.log($(event.target).closest('#msg').length)
+		if ($(event.target).closest('.msgbox').length==0 && $(event.target).closest('#msg').length==0) {
+			$(".msgbox").removeClass("hidden").addClass("hidden")
+		}
+	})
+	
+	$("#msg").on("click", function() {
+		$(".msgbox").toggleClass("hidden")
+		$('.msg-wrapper').scrollTop($('.msg-wrapper')[0].scrollHeight);
+		$("#msg_f").focus()
+
+		$("#msg_f").on('keypress',function(e) {
+			msg = $("#msg_f").val();
+
+			if(e.which == 13) {
+				send_msg(msg)
+			}
+		});
+	});
+
+	function send_msg(msg) {
+		let uid = localStorage.getItem('uid');
+		let data = {msg: msg, user_id: uid}
+		
+		if (msg.length>0) {
+			$.post("/msg", data, function(d) {
+				console.log(d)
+			});
+
+			// $(".msgbox").toggleClass("hidden")
+			$("#msg_f").val("")
+			$(".msg-wrapper").append(prepare_msg_html(msg))
+			$('.msg-wrapper').scrollTop($('.msg-wrapper')[0].scrollHeight);
+			$(".emoji-wrapper").removeClass('hidden').addClass("hidden");
+
+
+			M.toast({html: msg})
+			console.log(data)
+		}
+	}
+
+	$(".send").on("click", function() {
+		msg = $("#msg_f").val();
+		
+		send_msg(msg)
+	})
+
+	music = new Audio("/music/msg.mp3");
+	function play_sound() {
+		music.pause();
+		music.play();
+	}
+
+	function prepare_msg_html(msg, pos="fleft", who="") {
+		let html = `
+			<div class="msgp-wrapper"><p class="msgp ${pos} ${who}">${msg}</p></div>
+		`;
+
+		return html
+	}
+
+	socket.on("msg_rec", function(d) {
+		var info = JSON.parse(d);
+
+		if (uid == info.user_id) {
+			$(".msg-wrapper").append(prepare_msg_html(info.msg, "fright", "other"))
+			$('.msg-wrapper').scrollTop($('.msg-wrapper')[0].scrollHeight);
+			play_sound();
+			M.toast({html: info.msg})
+		}
+	})
+
 	function check_lock() {
 		$.get('check', function(t) {
 			console.log(t);
@@ -137,6 +265,19 @@
 		check_lock();
 	});
 
+	socket.on('match_draw', function (d) {
+		var d = JSON.parse(d);
+
+		Swal.fire({
+			icon: 'error',
+			title: 'Oops...',
+			text: 'Match Draw!',
+			allowOutsideClick: () => location.reload(),
+		});
+
+		setTimeout(() => location.reload(), 3000);
+	});
+
 	socket.on('found_challenger', function (info) {
 		console.log(info);
 		var info = JSON.parse(info);
@@ -148,7 +289,7 @@
 		symbol = info.symbol;
 		
 		$(".opponent .face").html(`<span class="symbol">${info.opponent_sym}</span>
-								<img src="https://api.adorable.io/avatars/55/${info.challenger_name}" alt="${info.challenger_name}">`);
+								<img src="img/avatar/avatar-${info.avatar_id}.png" alt="${info.challenger_name}">`);
 
 		$(".opponent .info").html(`<p><span class="challenger">${info.challenger_name}</span></p>`);
 
@@ -156,34 +297,73 @@
 	});
 
 
-	socket.on('match_ended', function (winner) {
-		winner = JSON.parse(winner);
+socket.on('match_ended', function (winner) {
+	winner = JSON.parse(winner);
 
-		console.log("Match ended");
-		console.log(winner);
+	console.log("Match ended");
+	console.log(winner);
 
-		let uid = localStorage.getItem('uid');
-		if (winner.id == uid) {
-			Swal.fire({
-				icon: 'success',
-				title: 'Yay...',
-				text: 'You won!',
-				allowOutsideClick: () => location.reload(),
-			});
+	let uid = localStorage.getItem('uid');
+	if (winner.id == uid) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Yay...',
+			text: 'You won!',
+			allowOutsideClick: () => location.reload(),
+		});
 
-			localStorage.setItem('winner', 1);
-		} else {
-			Swal.fire({
-				icon: 'error',
-				title: 'Oops...',
-				text: 'You lost!',
-				footer: '<a href="#don\'t-know">Why do I lost?</a>',
-				allowOutsideClick: () => location.reload(),
-			});
-		}
+		localStorage.setItem('winner', 1);
+	} else {
+		Swal.fire({
+			icon: 'error',
+			title: 'Oops...',
+			text: 'You lost!',
+			footer: '<a href="#don\'t-know">Why do I lost?</a>',
+			allowOutsideClick: () => location.reload(),
+		});
+	}
 
-		setTimeout(() => location.reload(), 3000);
-	});
+	setTimeout(() => location.reload(), 3000);
+});
+
+
+socket.on('match_left', function (winner) {
+	winner = JSON.parse(winner);
+
+	console.log("Match ended");
+	console.log(winner);
+
+	if (winner.id == uid) {
+		Swal.fire({
+			icon: 'success',
+			title: 'Opponent Left!',
+			text: 'Congratulations! You\'ve won.',
+			allowOutsideClick: () => location.reload(),
+		});
+	}
+
+	localStorage.setItem('winner', 1);
+
+	setTimeout(() => location.reload(), 3000);
+});
+
+	var emojis = [];
+
+	$(".emoji-sel").on("click", function() {
+		$(".emoji-wrapper").toggleClass("hidden");
+
+		$("#msg_f").on('click',function(e) {
+			$(".emoji-wrapper").removeClass('hidden').addClass("hidden");
+		});
+	})
+
+$( ".emoji-wrapper span" ).click(function() {
+	let emoji = $(this).text();
+	let msg = $("#msg_f").val()
+	msg = msg?msg:""
+
+	$("#msg_f").val(msg+emoji)
+});
 </script>
 </body>
 </html>

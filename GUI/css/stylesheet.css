@@ -15,6 +15,155 @@ h1 {
     font-size: 2em !important;
 }
 
+.msgbox {
+    position: absolute;
+    bottom: 0;
+    left: 60px;
+    z-index: 9999;
+}
+
+.msgbox div {
+    padding: 5px 15px;
+}
+
+.msgbox div {
+    margin: 5px !important;
+}
+
+.msgbox .msg-wrapper {
+    background-color: #fff;
+    box-shadow: 0px 0px 40px 0px #b95ed7;
+    border-radius: 5px;
+    height: 210px;
+    margin-bottom: 8px !important;
+    padding: 20px 10px;
+    overflow: auto;
+}
+
+.msgp {
+    border: 1px solid #b95ed7;
+    padding: 3px 10px;
+    background-color: #c30efe80;
+    display: inline;
+    color: #fff;
+    max-width: 150px;
+    border-radius: 1em;
+    cursor: default;
+}
+
+.msgp.other {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+}
+
+.msgp-wrapper {
+    height: auto;
+    overflow: overlay;
+    padding: 0 !important;
+}
+
+.fleft {
+    float: left;
+}
+
+.fright {
+    float: right;
+}
+
+.emoji-sel {
+    font-size: 32px;
+    height: 24px;
+}
+
+.emoji-sel i {
+    vertical-align: super;
+    position: relative;
+    bottom: 16px;
+}
+
+.emoji-wrapper .pre-msg {
+    display: block;
+    padding: 0 !important;
+    margin: 0 !important;
+    margin-bottom: 7px !important;
+}
+
+.emoji-wrapper .pre-msg span {
+    font-size: 13px !important;
+    margin-right: 0px !important;
+    border-radius: 2em;
+    border: 1.5px solid #00000091;
+    color: #00000091;
+    font-weight: bold;
+    padding: 2px 10px;
+    margin-bottom: 5px !important;
+    margin-bottom: 6px !important;
+    display: inline-block;
+}
+
+.emoji-wrapper {
+    position: absolute;
+    box-shadow: 0px 0px 40px 0px #00000091;
+    bottom: 35px;
+    background: #fff;
+    z-index: 9;
+    padding: 10px !important;
+    text-align: left;
+    border-radius: 5px;
+    height: 190px;
+    overflow: auto;
+    height: 210px;
+    width: 250px;
+    left: 0;
+}
+
+.emoji-wrapper span {
+    font-size: 19px;
+    cursor: pointer;
+}
+
+.msgbox input {
+    height: 25px !important;    
+    display: inline-block !important;
+    width: 72% !important;
+}
+
+.msgbox .send {
+    margin-left: 3px !important;
+}
+
+.msgf-wrapper {
+    box-shadow: 0px 0px 40px 0px #b95ed7;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 5px 7px 5px 15px !important;
+}
+
+.msgf-wrapper::before {
+    content: " .";
+    border-radius: 0 0 0 60px;
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    left: 0;
+    left: -3px;
+    color: transparent;
+    background-color: #fff;
+    left: -4px;
+    top: 3px;
+}
+
+
+
+.msgbox-wrapper {
+    position: relative;
+}
+
+.msgbox * {
+    margin: 0 !important;
+}
+
 ._row{
 	height: 100px;
 }
@@ -108,6 +257,8 @@ h1 {
     border-radius: 100%;
     border: 3px solid #2B60DE;
     display: block;
+    height: 70px;
+    background: #2B60DE;
 }
 
 .info .msg {
@@ -115,6 +266,7 @@ h1 {
     position: absolute;
     right: -14px;
     margin: -3px 0;
+    z-index: 0; 
 }
 
 .info .you, .info .opponent {

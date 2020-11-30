@@ -35,7 +35,7 @@ app.get('/', function(req, res){
     return res.sendFile(__dirname +'/GUI/main.html');
 
   let player = Player.get(user.id);
-  if (!player || board.matchEnded(player.matchId)) {
+  if (!player || board.matchEnded(player.matchId) || board.isMatchDraw(player.matchId)) {
     delete req.session.user;
 
     if (player) // if match ended and player existed
@@ -49,15 +49,20 @@ app.get('/', function(req, res){
   let opponent_sym = "";
   
   if(player.symbol) opponent_sym= player.symbol=='X'?'O':'X';
-  let d = {name, opposition: searching_htm, uid: player.id, symbol: player.symbol, opponent_sym, lock: null};
+  let d = {name, opposition: searching_htm, uid: player.id, match_moves: null, symbol: player.symbol, opponent_sym, lock: null, "avatar_id":player.avatar_id, "opp_avatar_id":null};
 
   if (player.started) {
     let opposition_user = Player.opposition(player.id);
 
     d.opposition = opposition_user.name;
     d.lock = player.lock;
+    d.opp_avatar_id = opposition_user.avatar_id;
   }
 
+  let match_moves = board.getMatchMoves(player.matchId);
+  d.match_moves = match_moves;
+
+  console.log(match_moves)
   res.render('game.html', d);
 });
 
@@ -65,7 +70,7 @@ app.post('/start', function(req, res){
   if (req.session.user)
     return res.redirect('/');
 
-  let new_player = Player.new({name: req.body.name, opposition: '', started: false, symbol: '', lock: -1, matchId: null});
+  let new_player = Player.new({name: req.body.name, opposition: '', "avatar_id": Math.floor(Math.random() * 15)+1, started: false, symbol: '', lock: -1, matchId: null});
   let user = {id : new_player.id, name: new_player.name};
   req.session.user = user;
 
@@ -88,7 +93,7 @@ app.post('/start', function(req, res){
         
         let match_id = board.matchCount();
         new_player.matchId = player.matchId = match_id;
-        board.newMatch({match_id, moves: [], ended:false});
+        board.newMatch({match_id, moves: new Array(9), ended:false, draw:false});
 
         Player.update(player.id, player);
         Player.update(new_player.id, new_player);
@@ -103,7 +108,7 @@ app.post('/start', function(req, res){
     let cur_player = Player.get(req.session.user.id);
     let opponent = Player.get(cur_player.opposition);
 
-    let d = {challenger_name: user.name, symbol: opponent.symbol, opponent_sym: cur_player.symbol};
+    let d = {challenger_name: user.name, symbol: opponent.symbol, opponent_sym: cur_player.symbol, avatar_id:cur_player.avatar_id};
 
     io.emit('found_challenger', JSON.stringify(d));
   }
@@ -138,6 +143,10 @@ app.put('/move', (req, res) => {
   if (winner)
     io.emit('match_ended', JSON.stringify(winner));
 
+    let is_draw = board.matchDraw(player.matchId);
+    if (is_draw)
+      io.emit('match_draw', JSON.stringify({msg: "Match draw!"}));
+
   res.writeHead(204);
   res.end();
 });
@@ -170,6 +179,9 @@ app.get('/end', (req, res) => {
     board.endMatch(player.matchId);
 
   Player.delete(player.id);
+  
+  let winner = Player.get(player.opposition);
+  io.emit('match_left', JSON.stringify(winner));
 
   return res.redirect('/');
 });
@@ -178,6 +190,31 @@ io.on('connection', function(socket){
   console.log('connected');
 });
 
+
+app.post('/msg', function(req, res){
+  if (!req.session.user)
+    return res.redirect('/');
+
+  let user = req.session.user;
+  let msg = req.body.msg;
+
+  let player = Player.get(user.id);
+  if (player || !board.matchEnded(player.matchId)) {
+    let opposition_user = Player.opposition(player.id);
+
+    if (!opposition_user) {
+      res.writeHead(400);
+      return res.end()
+    }
+
+    let d = {msg: msg, user_id: player.opposition};
+
+    io.emit("msg_rec", JSON.stringify(d));
+
+    res.writeHead(204);
+    return res.end();
+  }
+});
 
 http.listen(PORT, function(){
   console.log(`listening on http://localhost:${PORT}`);
