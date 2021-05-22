@@ -7,7 +7,7 @@ var Board = require('./board');
 var Player = require('./player');
 
 const bodyParser = require('body-parser');
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.engine('html', require('ejs').renderFile);
 app.set('views', __dirname+"/GUI");
